@@ -1,11 +1,11 @@
-import heapq
-import time
-import operator
 import asyncio
-
-from itertools import chain
+import heapq
+import operator
+import time
 from collections import OrderedDict
-from kademlia.utils import shared_prefix, bytes_to_bit_string
+from itertools import chain
+
+from kademlia.utils import bytes_to_bit_string, shared_prefix
 
 
 class KBucket:
@@ -177,10 +177,9 @@ class RoutingTable:
         Get the index of the bucket that the given node would fall into.
         """
         for index, bucket in enumerate(self.buckets):
-            if node.long_id < bucket.range[1]:
+            if bucket.range[0] <= node.long_id < bucket.range[1]:
                 return index
-        # we should never be here, but make linter happy
-        return None
+        raise ValueError(f"Node ID {node.long_id} does not fit into any bucket range")
 
     def find_neighbors(self, node, k=None, exclude=None):
         k = k or self.ksize

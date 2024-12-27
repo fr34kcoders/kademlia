@@ -2,17 +2,15 @@
 Package for interacting on the network at a high level.
 """
 
-import random
-import pickle
 import asyncio
 import logging
+import pickle
 
-from kademlia.protocol import KademliaProtocol
-from kademlia.utils import digest
-from kademlia.storage import ForgetfulStorage
+from kademlia.crawling import NodeSpiderCrawl, ValueSpiderCrawl
 from kademlia.node import Node
-from kademlia.crawling import ValueSpiderCrawl
-from kademlia.crawling import NodeSpiderCrawl
+from kademlia.protocol import KademliaProtocol
+from kademlia.storage import ForgetfulStorage
+from kademlia.utils import digest, generate_node_id
 
 log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
@@ -40,7 +38,7 @@ class Server:
         self.ksize = ksize
         self.alpha = alpha
         self.storage = storage or ForgetfulStorage()
-        self.node = Node(node_id or digest(random.getrandbits(255)))
+        self.node = Node(node_id or generate_node_id())
         self.transport = None
         self.protocol = None
         self.refresh_loop = None

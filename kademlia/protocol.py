@@ -1,6 +1,6 @@
-import random
 import asyncio
 import logging
+import random
 
 from rpcudp.protocol import RPCProtocol
 
