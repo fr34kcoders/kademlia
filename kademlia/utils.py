@@ -22,7 +22,6 @@ def generate_node_id():
     bytes
         A 20-byte (160-bit) ID for the node.
     """
-
     # Generate a random 160-bit integer
     random_bits = random.getrandbits(160)
     # Hash the integer to ensure uniform distribution and create a 160-bit ID

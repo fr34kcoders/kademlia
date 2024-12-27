@@ -1,11 +1,14 @@
 import asyncio
 import heapq
+import logging
 import operator
 import time
 from collections import OrderedDict
 from itertools import chain
 
 from kademlia.utils import bytes_to_bit_string, shared_prefix
+
+log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
 class KBucket:
@@ -149,14 +152,17 @@ class RoutingTable:
         return [b for b in self.buckets if b.last_updated < hrago]
 
     def remove_contact(self, node):
+        log.debug("forgetting about %s", node)
         index = self.get_bucket_for(node)
         self.buckets[index].remove_node(node)
 
     def is_new_node(self, node):
+        log.debug("checking if %s is a new node", node)
         index = self.get_bucket_for(node)
         return self.buckets[index].is_new_node(node)
 
     def add_contact(self, node):
+        log.debug("adding %s to router", node)
         index = self.get_bucket_for(node)
         bucket = self.buckets[index]
 
@@ -173,6 +179,7 @@ class RoutingTable:
             asyncio.ensure_future(self.protocol.call_ping(bucket.head()))
 
     def get_bucket_for(self, node):
+        log.debug("finding bucket for %s", node)
         """
         Get the index of the bucket that the given node would fall into.
         """
