@@ -9,3 +9,6 @@ kademlia.egg-info
 docs/_build
 .coverage
 .coverage.*
+uv.lock
+__pycache__
+.venv
