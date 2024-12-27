@@ -11,16 +11,15 @@ async def test_storing(bootstrap_node):
     server = Server()
     await server.listen(bootstrap_node[1] + 1)
     await server.bootstrap([bootstrap_node])
-    await server.set('key', 'value')
-    result = await server.get('key')
+    await server.set("key", "value")
+    result = await server.get("key")
 
-    assert result == 'value'
+    assert result == "value"
 
     server.stop()
 
 
 class TestSwappableProtocol:
-
     def test_default_protocol(self):  # pylint: disable=no-self-use
         """
         An ordinary Server object will initially not have a protocol, but will

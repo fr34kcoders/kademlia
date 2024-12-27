@@ -2,9 +2,9 @@
 General catchall for functions that don't make sense as methods.
 """
 
+import asyncio
 import hashlib
 import operator
-import asyncio
 
 
 async def gather_dict(dic):

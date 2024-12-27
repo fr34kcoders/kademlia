@@ -1,5 +1,6 @@
 import random
 import hashlib
+
 # pylint: disable=no-name-in-module
 from struct import pack
 
@@ -16,7 +17,7 @@ def bootstrap_node(event_loop):
     event_loop.run_until_complete(server.listen(8468))
 
     try:
-        yield ('127.0.0.1', 8468)
+        yield ("127.0.0.1", 8468)
     finally:
         server.stop()
 
@@ -29,11 +30,12 @@ def mknode():
         Make a node.  Created a random id if not specified.
         """
         if intid is not None:
-            node_id = pack('>l', intid)
+            node_id = pack(">l", intid)
         if not node_id:
             randbits = str(random.getrandbits(255))
             node_id = hashlib.sha1(randbits.encode()).digest()
         return Node(node_id, ip_addy, port)
+
     return _mknode
 
 

@@ -94,7 +94,7 @@ class TableTraverser:
         table.buckets[index].touch_last_updated()
         self.current_nodes = table.buckets[index].get_nodes()
         self.left_buckets = table.buckets[:index]
-        self.right_buckets = table.buckets[(index + 1):]
+        self.right_buckets = table.buckets[(index + 1) :]
         self.left = True
 
     def __iter__(self):
@@ -133,7 +133,7 @@ class RoutingTable:
         self.flush()
 
     def flush(self):
-        self.buckets = [KBucket(0, 2 ** 160, self.ksize)]
+        self.buckets = [KBucket(0, 2**160, self.ksize)]
 
     def split_bucket(self, index):
         one, two = self.buckets[index].split()
