@@ -1,6 +1,7 @@
 """
 General catchall for functions that don't make sense as methods.
 """
+
 import hashlib
 import operator
 import asyncio
@@ -14,8 +15,13 @@ async def gather_dict(dic):
 
 def digest(string):
     if not isinstance(string, bytes):
-        string = str(string).encode('utf8')
-    return hashlib.sha1(string).digest()
+        string = str(string).encode("utf8")
+    key_namespace = string.split(b":", 1)[0]
+    digest = hashlib.sha1(string).digest()
+    if key_namespace == b"":
+        return digest
+    key = f"{key_namespace.decode('utf8')}:{digest}".encode("utf8")
+    return key
 
 
 def shared_prefix(args):
@@ -37,5 +43,5 @@ def shared_prefix(args):
 
 
 def bytes_to_bit_string(bites):
-    bits = [bin(bite)[2:].rjust(8, '0') for bite in bites]
+    bits = [bin(bite)[2:].rjust(8, "0") for bite in bites]
     return "".join(bits)
