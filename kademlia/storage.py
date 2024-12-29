@@ -1,45 +1,56 @@
-import time
-from itertools import takewhile
 import operator
+import time
+from abc import ABC, abstractmethod
 from collections import OrderedDict
-from abc import abstractmethod, ABC
+from itertools import takewhile
+from typing import Iterator
 
 
 class IStorage(ABC):
     """
     Local storage for this node.
     IStorage implementations of get must return the same type as put in by set
+
+    Keys are tuples of the form (namespace, digest_bytes).
+    - store_key: bytes : UTF-8 encoded string of the key to store.
     """
 
     @abstractmethod
-    def __setitem__(self, key, value):
+    def set(self, key: bytes, value: any):
         """
-        Set a key to the given value.
-        """
-
-    @abstractmethod
-    def __getitem__(self, key):
-        """
-        Get the given key.  If item doesn't exist, raises C{KeyError}
+        Set a (namespace, digest) key to the given value.
         """
 
     @abstractmethod
-    def get(self, key, default=None):
+    def __getitem__(
+        self,
+        key: bytes,
+    ) -> any:
         """
-        Get given key.  If not found, return default.
-        """
-
-    @abstractmethod
-    def iter_older_than(self, seconds_old):
-        """
-        Return the an iterator over (key, value) tuples for items older
-        than the given secondsOld.
+        Get the given (namespace, digest) key.
+        If item doesn't exist, raises KeyError.
         """
 
     @abstractmethod
-    def __iter__(self):
+    def get(self, key: bytes, default=None) -> any:
         """
-        Get the iterator for this storage, should yield tuple of (key, value)
+        Get the given (namespace, digest) key.
+        If not found, return default.
+        """
+
+    @abstractmethod
+    def iter_older_than(
+        self, seconds_old: float
+    ) -> Iterator[tuple[tuple[str, bytes], any]]:
+        """
+        Return an iterator of ((namespace, digest), value) for items older
+        than the given seconds_old.
+        """
+
+    @abstractmethod
+    def __iter__(self) -> Iterator[tuple[tuple[str, bytes], any]]:
+        """
+        Get an iterator over ((namespace, digest), value) in this storage.
         """
 
 

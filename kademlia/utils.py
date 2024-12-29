@@ -4,8 +4,11 @@ General catchall for functions that don't make sense as methods.
 
 import asyncio
 import hashlib
+import logging
 import operator
 import random
+
+log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 
 async def gather_dict(dic):
@@ -31,12 +34,7 @@ def generate_node_id():
 def digest(string):
     if not isinstance(string, bytes):
         string = str(string).encode("utf8")
-    key_namespace = string.split(b":", 1)[0]
-    digest = hashlib.sha1(string).digest()
-    if key_namespace == b"":
-        return digest
-    key = f"{key_namespace.decode('utf8')}:{digest}".encode("utf8")
-    return key
+    return hashlib.sha1(string).digest()
 
 
 def shared_prefix(args):

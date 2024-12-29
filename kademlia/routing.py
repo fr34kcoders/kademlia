@@ -93,6 +93,7 @@ class KBucket:
 
 class TableTraverser:
     def __init__(self, table, startNode):
+        log.debug("creating traverser for %s", startNode)
         index = table.get_bucket_for(startNode)
         table.buckets[index].touch_last_updated()
         self.current_nodes = table.buckets[index].get_nodes()
@@ -189,9 +190,11 @@ class RoutingTable:
         raise ValueError(f"Node ID {node.long_id} does not fit into any bucket range")
 
     def find_neighbors(self, node, k=None, exclude=None):
+        log.debug("finding neighbors for %s", node)
         k = k or self.ksize
         nodes = []
         for neighbor in TableTraverser(self, node):
+            log.debug("considering %s as neighbor", neighbor)
             notexcluded = exclude is None or not neighbor.same_home_as(exclude)
             if neighbor.id != node.id and notexcluded:
                 heapq.heappush(nodes, (node.distance_to(neighbor), neighbor))

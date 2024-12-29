@@ -1,9 +1,8 @@
-from collections import Counter
 import logging
+from collections import Counter
 
 from kademlia.node import Node, NodeHeap
 from kademlia.utils import gather_dict
-
 
 log = logging.getLogger(__name__)  # pylint: disable=invalid-name
 

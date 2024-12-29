@@ -1,5 +1,8 @@
-from operator import itemgetter
 import heapq
+import logging
+from operator import itemgetter
+
+log = logging.getLogger(__name__)
 
 
 class Node:
@@ -19,10 +22,12 @@ class Node:
             ip (string): Optional IP address where this Node lives
             port (int): Optional port for this Node (set when IP is set)
         """
+        log.debug("creating new node %s", node_id)
         self.id = node_id  # pylint: disable=invalid-name
         self.ip = ip  # pylint: disable=invalid-name
         self.port = port
         self.long_id = int(node_id.hex(), 16)
+        log.debug("created node %s", self)
 
     def same_home_as(self, node):
         return self.ip == node.ip and self.port == node.port

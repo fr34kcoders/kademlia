@@ -42,7 +42,7 @@ class KademliaProtocol(RPCProtocol):
         log.debug(
             "got a store request from %s, storing '%s'='%s'", sender, key.hex(), value
         )
-        self.storage[key] = value
+        self.storage.set(key, value)
         return True
 
     def rpc_find_node(self, sender, nodeid, key):
