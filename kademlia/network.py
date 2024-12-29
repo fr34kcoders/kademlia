@@ -10,7 +10,6 @@ import random
 from kademlia.crawling import NodeSpiderCrawl, ValueSpiderCrawl
 from kademlia.node import Node
 from kademlia.protocol import KademliaProtocol
-from kademlia.storage import ForgetfulStorage
 from kademlia.utils import digest
 
 log = logging.getLogger(__name__)  # pylint: disable=invalid-name
@@ -38,7 +37,7 @@ class Server:
         """
         self.ksize = ksize
         self.alpha = alpha
-        self.storage = storage or ForgetfulStorage()
+        self.storage = storage
         self.node = Node(node_id or digest(random.getrandbits(255)))
         self.transport = None
         self.protocol = None
@@ -233,6 +232,7 @@ class Server:
             frequency: Frequency in seconds that the state should be saved.
                         By default, 10 minutes.
         """
+        log.debug("Saving state every %i seconds to %s", frequency, fname)
         self.save_state(fname)
         loop = asyncio.get_event_loop()
         self.save_state_loop = loop.call_later(

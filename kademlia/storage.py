@@ -62,7 +62,7 @@ class ForgetfulStorage(IStorage):
         self.data = OrderedDict()
         self.ttl = ttl
 
-    def __setitem__(self, key, value):
+    def set(self, key, value):
         if key in self.data:
             del self.data[key]
         self.data[key] = (time.monotonic(), value)
