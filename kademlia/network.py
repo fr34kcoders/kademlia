@@ -147,6 +147,7 @@ class Server:
         if value is not None:
             return value
         node = Node(dkey)
+        node.custom_key = key
         nearest = self.protocol.router.find_neighbors(node)
         if not nearest:
             log.warning("There are no known neighbors to get key %s", key)

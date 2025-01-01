@@ -13,7 +13,7 @@ class Node:
     level construct mostly used by the router.
     """
 
-    def __init__(self, node_id, ip=None, port=None):
+    def __init__(self, node_id, ip=None, port=None, custom_key=None):
         """
         Create a Node instance.
 
@@ -24,6 +24,7 @@ class Node:
         """
         log.debug("creating new node %s", node_id)
         self.id = node_id  # pylint: disable=invalid-name
+        self.custom_key = custom_key
         self.ip = ip  # pylint: disable=invalid-name
         self.port = port
         self.long_id = int(node_id.hex(), 16)
