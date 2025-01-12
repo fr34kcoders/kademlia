@@ -9,7 +9,7 @@ authors = [
 ]
 license = {file = "LICENSE"}
 dependencies = [
-    "rpcudp>=4.0.1",
+    "rpcudp @ git+https://github.com/fr34kcoders/rpcudp.git",
 ]
 
 [dependency-groups]
